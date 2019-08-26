@@ -57,10 +57,11 @@ class MissingInitData(Exception):
 
 
 class GoogleDownload(object):
-    def __init__(self, start, end, satellite, latitude=None, longitude=None,
+    def __init__(self, start, end, satellite, band_map, latitude=None, longitude=None,
                  path=None, row=None, max_cloud_percent=100,
                  instrument=None, output_path=None, zipped=False, alt_name=False):
 
+        # band_map: template in runspec.py
         self.sat_num = satellite
         self.sat_name = 'LANDSAT_{}'.format(self.sat_num)
         self.instrument = instrument
@@ -105,7 +106,7 @@ class GoogleDownload(object):
         self.current_image = None
 
         self.candidate_scenes()
-        self.band_map = BandMap()
+        self.band_map = band_map
 
     def download(self, list_type='low_cloud'):
 
@@ -119,7 +120,7 @@ class GoogleDownload(object):
         out_dir = None
         for ind, row in scenes.iterrows():
             print('Image {} for {}'.format(row.SCENE_ID, row.DATE_ACQUIRED))
-            for band in self.band_map.file_suffixes[self.sat_name]:
+            for band in self.band_map:
 
                 url = self._make_url(row, band)
 
