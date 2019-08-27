@@ -108,7 +108,11 @@ class GoogleDownload(object):
         self.candidate_scenes()
         if band_map is None:
             self.band_map = BandMap()
-            self.band_map = BandMap.file_suffixes[self.sat_name]
+            print(type(self.band_map))
+            self.band_map = BandMap.file_suffixes
+            print(type(self.band_map))
+            self.band_map = self.band_map[self.sat_name]
+            print(type(self.band_map))
         self.band_map = band_map
 
     def download(self, list_type='low_cloud'):
