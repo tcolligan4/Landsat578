@@ -57,7 +57,7 @@ class MissingInitData(Exception):
 
 
 class GoogleDownload(object):
-    def __init__(self, start, end, satellite, band_map, latitude=None, longitude=None,
+    def __init__(self, start, end, satellite, band_map=None, latitude=None, longitude=None,
                  path=None, row=None, max_cloud_percent=100,
                  instrument=None, output_path=None, zipped=False, alt_name=False):
 
@@ -106,6 +106,9 @@ class GoogleDownload(object):
         self.current_image = None
 
         self.candidate_scenes()
+        if band_map is None:
+            self.band_map = BandMap()
+            self.band_map = BandMap.file_suffixes[self.sat_name]
         self.band_map = band_map
 
     def download(self, list_type='low_cloud'):
